@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  db:
+    image: mongo
+    restart: always
+    volumes:
+      - ./data/mongo:/data/db
+    ports:
+      - 5000:27017
+      - 6000:27018
+    networks:
+      - bloodbank-network
+
+  frontend:
+    container_name: bloodbank-web
+    image: nginx
+    build: ./
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - ./web-server-container:/usr/share/nginx/html
+    links:
+      - api-container
+    networks:
+      - bloodbank-network
+
+networks:
+  bloodbank-network:
+    driver: bridge
