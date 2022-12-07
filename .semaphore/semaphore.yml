@@ -10,5 +10,14 @@ blocks:
       jobs:
         - name: docker build
           commands:
+            - docker-cache restore
+        - name: 'Job #2'
+          commands:
             - checkout
             - docker compose up -d
+after_pipeline:
+  task:
+    jobs:
+      - name: 'Job #1'
+        commands:
+          - docker-cache snapshot
