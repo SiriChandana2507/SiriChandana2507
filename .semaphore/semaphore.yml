@@ -31,7 +31,7 @@ blocks:
           - gcloud auth configure-docker -q
           - checkout
       jobs:
-        - name: nginx
+        - name: bloodbankui
           commands:
             - cd frontend
             - 'docker build -t "gcr.io/bloodbank-370900/bloodbankfrontend:${SEMAPHORE_GIT_SHA:0:7}" .'
