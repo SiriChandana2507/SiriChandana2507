@@ -7,8 +7,16 @@ agent:
 blocks:
   - name: Build
     task:
+      secrets:
+        - name: GCP
+      prologue:
+        commands:
+          - gcloud auth activate-service-account --key-file=.secrets/gcp.json
+          - gcloud auth configure-docker -q
+          - checkout
       jobs:
         - name: docker build
           commands:
-            - checkout
-            - docker compose up -d
+            - cd backend
+            - 'docker build -t "gcr.io/bloodbank-370900/bloodbankbackend:${SEMAPHORE_GIT_SHA:0:7}"'
+            - 'docker push -t "gcr.io/bloodbank-370900/bloodbankbackend:${SEMAPHORE_GIT_SHA:0:7}"'
