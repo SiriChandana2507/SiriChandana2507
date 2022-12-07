@@ -114,17 +114,21 @@
     <script>
         var donors = []
         function getDonors() {
-            fetch("http://localhost:3000/donor").then(function (response) {
+            fetch("https://bloodbankbackend610-vtuhsgrhqa-uc.a.run.app/donor").then(function (response) {
                 return response.json();
             }).then(function (data) {
                 var nHTML = '';
 
                 donors = data.donors
-                donors.forEach(function (item) {
-                    nHTML += ' <div class="row"><div class="col-lg-12"><div class="row"><div class="col-lg-3"><div class="type"><h2>' + item.bloodGroup + '</h2></div></div><div class="data col-lg-6"><h4>Name: ' + item.firstName + ' ' + item.lastName + '</h4><h4>Age: ' + item.age + '</h4><h4>City: ' + item.city + '</h4></div><div class="col-lg-3"><a href="tel:'+item.phone +'" class="btn btn-primary" style="color:white;width:150px;margin-top:25%">call</a></br><a href="mailto:'+item.email +'" class="btn btn-secondary" style="color:white;width:150px;margin-top:5%">email</a></div></div></div></div>'
+                if (donors != null) {
+                    donors.forEach(function (item) {
+                        nHTML += ' <div class="row"><div class="col-lg-12"><div class="row"><div class="col-lg-3"><div class="type"><h2>' + item.bloodGroup + '</h2></div></div><div class="data col-lg-6"><h4>Name: ' + item.firstName + ' ' + item.lastName + '</h4><h4>Age: ' + item.age + '</h4><h4>City: ' + item.city + '</h4></div><div class="col-lg-3"><a href="tel:' + item.phone + '" class="btn btn-primary" style="color:white;width:150px;margin-top:25%">call</a></br><a href="mailto:' + item.email + '" class="btn btn-secondary" style="color:white;width:150px;margin-top:5%">email</a></div></div></div></div>'
 
-                });
-                document.getElementById("donors-list").innerHTML = nHTML
+                    });
+                    document.getElementById("donors-list").innerHTML = nHTML
+                } else {
+                    document.getElementById("donors-list").innerHTML = ""
+                }
             }).catch(function () {
                 console.log("error");
             });
@@ -136,7 +140,7 @@
             var zipCode = document.getElementById("zipcode").value
             bg = bg.replace("+", "%2B")
             bg = bg.replace("-", "%2D")
-            url="http://localhost:3000/donor?bg=" + bg + "&city=" + city + "&state=" + state + "&zipCode=" + zipCode
+            url = "https://bloodbankbackend610-vtuhsgrhqa-uc.a.run.app/donor?bg=" + bg + "&city=" + city + "&state=" + state + "&zipCode=" + zipCode
             console.log(url)
             fetch(url).then(function (response) {
                 return response.json();
@@ -149,7 +153,7 @@
 
 
                     donors.forEach(function (item) {
-                        nHTML += ' <div class="row"><div class="col-lg-12"><div class="row"><div class="col-lg-3"><div class="type"><h2>' + item.bloodGroup + '</h2></div></div><div class="data col-lg-6"><h4>Name: ' + item.firstName + ' ' + item.lastName + '</h4><h4>Age: ' + item.age + '</h4><h4>City: ' + item.city + '</h4></div><div class="col-lg-3"><a href="tel:'+item.phone +'" class="btn btn-primary" style="color:white;width:150px;margin-top:25%">call</a></br><a href="mailto:'+item.email +'" class="btn btn-secondary" style="color:white;width:150px;margin-top:5%">email</a></div></div></div></div>'
+                        nHTML += ' <div class="row"><div class="col-lg-12"><div class="row"><div class="col-lg-3"><div class="type"><h2>' + item.bloodGroup + '</h2></div></div><div class="data col-lg-6"><h4>Name: ' + item.firstName + ' ' + item.lastName + '</h4><h4>Age: ' + item.age + '</h4><h4>City: ' + item.city + '</h4></div><div class="col-lg-3"><a href="tel:' + item.phone + '" class="btn btn-primary" style="color:white;width:150px;margin-top:25%">call</a></br><a href="mailto:' + item.email + '" class="btn btn-secondary" style="color:white;width:150px;margin-top:5%">email</a></div></div></div></div>'
 
                     });
                     document.getElementById("donors-list").innerHTML = nHTML
