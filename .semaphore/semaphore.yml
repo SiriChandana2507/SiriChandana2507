@@ -19,4 +19,12 @@ blocks:
           commands:
             - cd backend
             - 'docker build -t "gcr.io/bloodbank-370900/bloodbankbackend:${SEMAPHORE_GIT_SHA:0:7}" .'
-            - 'docker push -t "gcr.io/bloodbank-370900/bloodbankbackend:${SEMAPHORE_GIT_SHA:0:7}"'
+            - 'docker push "gcr.io/bloodbank-370900/bloodbankbackend:${SEMAPHORE_GIT_SHA:0:7}"'
+  - name: frontend
+    task:
+      jobs:
+        - name: nginx
+          commands:
+            - cd frontend
+            - 'docker build -t "gcr.io/bloodbank-370900/bloodbankfrontend:${SEMAPHORE_GIT_SHA:0:7}" .'
+            - 'docker push "gcr.io/bloodbank-370900/bloodbankfrontend:${SEMAPHORE_GIT_SHA:0:7}"'
