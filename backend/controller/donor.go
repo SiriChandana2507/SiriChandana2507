@@ -57,10 +57,10 @@ func GetDonors(c *gin.Context) {
 		filter["bloodGroup"] = bloodgroup
 	}
 	if city != "" {
-		filter["city"] = city
+		filter["city"] = strings.ToLower(city)
 	}
 	if state != "" {
-		filter["state"] = state
+		filter["state"] = strings.ToLower(state)
 	}
 	if zipCode != "" {
 		filter["zipCode"] = zipCode
