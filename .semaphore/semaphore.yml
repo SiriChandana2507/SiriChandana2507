@@ -7,8 +7,31 @@ agent:
 blocks:
   - name: Build
     task:
+      secrets:
+        - name: GCP
+      prologue:
+        commands:
+          - gcloud auth activate-service-account --key-file=.secrets/gcp.json
+          - gcloud auth configure-docker -q
+          - checkout
       jobs:
         - name: docker build
           commands:
-            - checkout
-            - docker build -t your-image .
+            - cd backend
+            - 'docker build -t "gcr.io/bloodbank-370900/bloodbankbackend:${SEMAPHORE_GIT_SHA:0:7}" .'
+            - 'docker push "gcr.io/bloodbank-370900/bloodbankbackend:${SEMAPHORE_GIT_SHA:0:7}"'
+  - name: frontend
+    task:
+      secrets:
+        - name: GCP
+      prologue:
+        commands:
+          - gcloud auth activate-service-account --key-file=.secrets/gcp.json
+          - gcloud auth configure-docker -q
+          - checkout
+      jobs:
+        - name: nginx
+          commands:
+            - cd frontend
+            - 'docker build -t "gcr.io/bloodbank-370900/bloodbankfrontend:${SEMAPHORE_GIT_SHA:0:7}" .'
+            - 'docker push "gcr.io/bloodbank-370900/bloodbankfrontend:${SEMAPHORE_GIT_SHA:0:7}"'
