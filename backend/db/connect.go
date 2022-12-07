@@ -12,7 +12,8 @@ var client *mongo.Client
 
 // Dbconnect -> connects mongo
 func Dbconnect() (*mongo.Client, error) {
-	clientOptions := options.Client().ApplyURI("mongodb://db:27017/bloodbank")
+	
+	clientOptions := options.Client().ApplyURI("mongodb+srv://bloodbankadmin:bloodbank@cluster0.ggcow1t.mongodb.net/bloodbank")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		return nil, err
